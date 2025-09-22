@@ -86,10 +86,14 @@ public class GestorMemoria {
         // Asignar marcos al proceso con más fallos
         if (procesoConMasFallos != null) {
             procesoConMasFallos.asignarMarcos(marcosLiberados);
+            // Los marcos ya no están libres, se asignaron al proceso
             marcosLibres.removeAll(marcosLiberados);
+            System.out.println("Marcos reasignados al proceso " + procesoConMasFallos.getId() + 
+                             " (tenía " + maxFallos + " fallos)");
         } else {
             // Si no hay procesos activos, marcar marcos como libres
             marcosLibres.addAll(marcosLiberados);
+            System.out.println("No hay procesos activos, marcos marcados como libres");
         }
     }
     
@@ -114,19 +118,8 @@ public class GestorMemoria {
             }
         }
         
-        // Buscar marco ocupado en los marcos disponibles del proceso para reemplazar
-        for (int marco : marcosDisponibles) {
-            if (marcoAPagina.containsKey(marco)) {
-                return asignarPaginaAMarco(paginaVirtual, marco);
-            }
-        }
-        
-        // Si no hay marcos ocupados, usar cualquier marco disponible
-        for (int marco : marcosDisponibles) {
-            return asignarPaginaAMarco(paginaVirtual, marco);
-        }
-        
-        return -1; // No se pudo cargar
+        // Si no hay marcos libres, usar algoritmo LRU para reemplazar
+        return reemplazarPaginaLRU(paginaVirtual, marcosDisponibles);
     }
     
     /**
@@ -170,6 +163,11 @@ public class GestorMemoria {
         
         if (marcoLRU != -1) {
             return asignarPaginaAMarco(paginaVirtual, marcoLRU);
+        }
+        
+        // Si no hay marcos ocupados, usar el primer marco disponible
+        for (int marco : marcosDisponibles) {
+            return asignarPaginaAMarco(paginaVirtual, marco);
         }
         
         return -1; // No se pudo reemplazar

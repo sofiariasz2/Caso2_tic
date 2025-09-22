@@ -1,0 +1,103 @@
+=== RESULTADOS DE GRÁFICA: MATRICES 100x100 ===
+
+========================================
+DATOS OBTENIDOS
+========================================
+
+CONFIGURACIÓN:
+- Matrices: 100x100 (una matriz por proceso)
+- Variación: Tamaño de página
+- Valores probados: 256, 512, 1024, 2048, 4096 bytes
+
+RESULTADOS:
+Tamaño de Página (bytes) | Fallas de Página | Gráfica
+------------------------------------------------------------
+                 256 |             535 | ████████████████████
+                 512 |             301 | ███████████
+                1024 |             184 | ██████
+                2048 |             126 | ████
+                4096 |              98 | ███
+
+========================================
+ANÁLISIS DE LA GRÁFICA
+========================================
+
+RELACIÓN INVERSA:
+- A mayor tamaño de página, menor número de fallas
+- Relación claramente inversa y consistente
+- Reducción significativa de fallos con páginas más grandes
+
+REDUCCIÓN DE FALLOS:
+- 256 → 512 bytes: 535 → 301 fallos (43.7% reducción)
+- 512 → 1024 bytes: 301 → 184 fallos (38.9% reducción)
+- 1024 → 2048 bytes: 184 → 126 fallos (31.5% reducción)
+- 2048 → 4096 bytes: 126 → 98 fallos (22.2% reducción)
+
+EFICIENCIA MARGINAL DECRECIENTE:
+- La reducción de fallos es más pronunciada con páginas pequeñas
+- Con páginas grandes, la mejora es menos dramática
+- Indica que hay un punto óptimo de tamaño de página
+
+========================================
+JUSTIFICACIÓN TÉCNICA
+========================================
+
+LOCALIDAD ESPACIAL:
+- Matrices 100x100 tienen excelente localidad espacial
+- Acceso secuencial por filas (row-major order)
+- Páginas grandes aprovechan mejor esta localidad
+
+DATOS POR PÁGINA:
+- 256 bytes: 64 enteros por página
+- 512 bytes: 128 enteros por página
+- 1024 bytes: 256 enteros por página
+- 2048 bytes: 512 enteros por página
+- 4096 bytes: 1024 enteros por página
+
+APROVECHAMIENTO DE LOCALIDAD:
+- Páginas grandes contienen más elementos de la matriz
+- Menos cambios de página durante el procesamiento
+- Mejor aprovechamiento de la localidad espacial
+
+========================================
+CONCLUSIONES
+========================================
+
+✅ CONFIRMACIÓN DE HIPÓTESIS:
+- La gráfica confirma que páginas grandes reducen fallos
+- La relación inversa es clara y consistente
+- Matrices 100x100 tienen excelente localidad espacial
+
+✅ RECOMENDACIONES:
+- Para matrices grandes, usar páginas de 1024 bytes o más
+- Páginas de 4096 bytes ofrecen el mejor rendimiento
+- El tamaño óptimo depende del patrón de acceso
+
+✅ IMPLICACIONES PRÁCTICAS:
+- Sistemas con matrices deben usar páginas grandes
+- La localidad espacial se aprovecha mejor con páginas grandes
+- El rendimiento mejora significativamente con páginas grandes
+
+========================================
+DATOS PARA GRÁFICA
+========================================
+
+FORMATO CSV:
+Tamaño_Pagina,Fallas_Pagina
+256,535
+512,301
+1024,184
+2048,126
+4096,98
+
+FORMATO PARA EXCEL/GOOGLE SHEETS:
+Tamaño de Página (bytes) | Fallas de Página
+256 | 535
+512 | 301
+1024 | 184
+2048 | 126
+4096 | 98
+
+========================================
+FIN DE RESULTADOS
+========================================

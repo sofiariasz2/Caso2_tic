@@ -204,18 +204,15 @@ public class SimuladorMemoriaVirtual {
             int numeroReferencias = calcularNumeroReferencias(numeroFilas, numeroColumnas);
             int numeroPaginasVirtuales = calcularNumeroPaginasVirtuales(numeroFilas, numeroColumnas);
             
-            // Escribir encabezado del archivo
-            writer.println(tamanoPagina);           // TP
-            writer.println(numeroFilas);            // NF
-            writer.println(numeroColumnas);         // NC
-            writer.println(numeroReferencias);      // NR
-            writer.println(numeroPaginasVirtuales); // NP
+            // Escribir encabezado del archivo en formato del anexo
+            writer.println("TP=" + tamanoPagina);           // TP=128
+            writer.println("NF=" + numeroFilas);            // NF=4
+            writer.println("NC=" + numeroColumnas);         // NC=4
+            writer.println("NR=" + numeroReferencias);      // NR=48
+            writer.println("NP=" + numeroPaginasVirtuales); // NP=2
             
-            // Generar y escribir direcciones virtuales
-            List<Integer> direccionesVirtuales = generarDireccionesVirtuales(numeroFilas, numeroColumnas);
-            for (int direccion : direccionesVirtuales) {
-                writer.println(direccion);
-            }
+            // Generar y escribir referencias en formato del anexo
+            generarReferenciasFormatoAnexo(writer, numeroFilas, numeroColumnas);
             
             System.out.println("Archivo generado: " + nombreArchivo + 
                              " (Referencias: " + numeroReferencias + 
@@ -280,6 +277,44 @@ public class SimuladorMemoriaVirtual {
         }
         
         return direcciones;
+    }
+    
+    /**
+     * Genera las referencias en el formato del anexo
+     * Formato: M1:[i-j],pagina,offset,operacion
+     */
+    private void generarReferenciasFormatoAnexo(PrintWriter writer, int filas, int columnas) throws IOException {
+        // Calcular direcciones base de cada matriz
+        int bytesPorMatriz = filas * columnas * TAMANO_ENTERO;
+        int direccionBaseMatriz1 = 0;
+        int direccionBaseMatriz2 = direccionBaseMatriz1 + bytesPorMatriz;
+        int direccionBaseMatriz3 = direccionBaseMatriz2 + bytesPorMatriz;
+        
+        // Simular el doble for del código
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                // Calcular offset dentro de la matriz (row-major order)
+                int offset = (i * columnas + j) * TAMANO_ENTERO;
+                
+                // 1. Lectura de matriz1[i][j]
+                int direccion1 = direccionBaseMatriz1 + offset;
+                int pagina1 = direccion1 / tamanoPagina;
+                int offsetPagina1 = direccion1 % tamanoPagina;
+                writer.println("M1:[" + i + "-" + j + "]," + pagina1 + "," + offsetPagina1 + ",r");
+                
+                // 2. Lectura de matriz2[i][j]
+                int direccion2 = direccionBaseMatriz2 + offset;
+                int pagina2 = direccion2 / tamanoPagina;
+                int offsetPagina2 = direccion2 % tamanoPagina;
+                writer.println("M2:[" + i + "-" + j + "]," + pagina2 + "," + offsetPagina2 + ",r");
+                
+                // 3. Escritura de matriz3[i][j]
+                int direccion3 = direccionBaseMatriz3 + offset;
+                int pagina3 = direccion3 / tamanoPagina;
+                int offsetPagina3 = direccion3 % tamanoPagina;
+                writer.println("M3:[" + i + "-" + j + "]," + pagina3 + "," + offsetPagina3 + ",w");
+            }
+        }
     }
     
     // ==================== MÉTODOS PARA OPCIÓN 2 ====================
@@ -386,16 +421,26 @@ public class SimuladorMemoriaVirtual {
         Scanner scanner = new Scanner(new File(nombreArchivo));
         
         try {
-            // Saltar las primeras 5 líneas (TP, NF, NC, NR, NP)
+            // Saltar las primeras 5 líneas (TP=, NF=, NC=, NR=, NP=)
             for (int i = 0; i < 5; i++) {
                 if (scanner.hasNextLine()) {
                     scanner.nextLine();
                 }
             }
             
-            // Leer direcciones virtuales
-            while (scanner.hasNextInt()) {
-                direcciones.add(scanner.nextInt());
+            // Leer referencias en formato del anexo y extraer direcciones virtuales
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                if (linea.contains(",")) {
+                    // Formato: M1:[i-j],pagina,offset,operacion
+                    String[] partes = linea.split(",");
+                    if (partes.length >= 2) {
+                        int pagina = Integer.parseInt(partes[1]);
+                        int offset = Integer.parseInt(partes[2]);
+                        int direccion = pagina * tamanoPagina + offset;
+                        direcciones.add(direccion);
+                    }
+                }
             }
             
         } finally {
@@ -496,8 +541,16 @@ public class SimuladorMemoriaVirtual {
         System.out.println(gestorMemoria.obtenerEstadisticas());
         System.out.println();
         
+        // Mostrar estadísticas por proceso en formato del anexo
         for (Proceso proceso : procesos) {
-            System.out.println(proceso.obtenerEstadisticas());
+            System.out.println("Proceso: " + proceso.getId());
+            System.out.println("Num referencias: " + proceso.getTotalReferencias());
+            System.out.println("Fallas: " + proceso.getTotalFallosPagina());
+            System.out.println("Hits: " + (proceso.getTotalReferencias() - proceso.getTotalFallosPagina()));
+            System.out.println("SWAP: " + proceso.getTotalAccesosSWAP());
+            System.out.println("Tasa fallas: " + String.format("%.4f", proceso.getTasaFallosPagina()));
+            System.out.println("Tasa éxito: " + String.format("%.4f", proceso.getTasaAciertos()));
+            System.out.println();
         }
         
         // Estadísticas globales
@@ -505,11 +558,11 @@ public class SimuladorMemoriaVirtual {
         int totalFallos = procesos.stream().mapToInt(Proceso::getTotalFallosPagina).sum();
         int totalSWAP = procesos.stream().mapToInt(Proceso::getTotalAccesosSWAP).sum();
         
-        System.out.println("\n=== ESTADÍSTICAS GLOBALES ===");
+        System.out.println("=== ESTADÍSTICAS GLOBALES ===");
         System.out.println("Total de referencias: " + totalReferencias);
         System.out.println("Total de fallos de página: " + totalFallos);
         System.out.println("Total de accesos SWAP: " + totalSWAP);
-        System.out.println("Tasa global de fallos: " + String.format("%.3f", (double) totalFallos / totalReferencias));
-        System.out.println("Tasa global de aciertos: " + String.format("%.3f", (double) (totalReferencias - totalFallos) / totalReferencias));
+        System.out.println("Tasa global de fallos: " + String.format("%.4f", (double) totalFallos / totalReferencias));
+        System.out.println("Tasa global de aciertos: " + String.format("%.4f", (double) (totalReferencias - totalFallos) / totalReferencias));
     }
 }

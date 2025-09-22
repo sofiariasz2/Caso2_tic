@@ -1,0 +1,266 @@
+=== RESULTADOS DE LAS 4 CONFIGURACIONES ADICIONALES ===
+
+========================================
+CONFIGURACIÓN ADICIONAL 1
+========================================
+
+PARÁMETROS:
+- Tamaño de página: 1024 bytes
+- Número de procesos: 2
+- Tamaños de matrices: 50x50, 75x75
+- Total de marcos: 8
+- Marcos por proceso: 4
+
+RESULTADOS:
+Proceso: 0 (50x50)
+- Referencias: 7,500
+- Fallos: 30
+- Hits: 7,470
+- SWAP: 60
+- Tasa fallas: 0.40%
+- Tasa éxito: 99.60%
+
+Proceso: 1 (75x75)
+- Referencias: 16,875
+- Fallos: 66
+- Hits: 16,809
+- SWAP: 132
+- Tasa fallas: 0.39%
+- Tasa éxito: 99.61%
+
+ESTADÍSTICAS GLOBALES:
+- Total de referencias: 24,375
+- Total de fallos: 96
+- Total de accesos SWAP: 192
+- Tasa global de fallos: 0.39%
+- Tasa global de aciertos: 99.61%
+
+ANÁLISIS:
+- Excelente rendimiento con páginas grandes (1024 bytes)
+- Proceso más grande (75x75) tiene mejor tasa de fallos
+- Indica que se beneficia de la reasignación de marcos
+
+========================================
+CONFIGURACIÓN ADICIONAL 2
+========================================
+
+PARÁMETROS:
+- Tamaño de página: 512 bytes
+- Número de procesos: 4
+- Tamaños de matrices: 25x25, 30x30, 35x35, 40x40
+- Total de marcos: 16
+- Marcos por proceso: 4
+
+RESULTADOS:
+Proceso: 0 (25x25)
+- Referencias: 1,875
+- Fallos: 15
+- Hits: 1,860
+- SWAP: 30
+- Tasa fallas: 0.80%
+- Tasa éxito: 99.20%
+
+Proceso: 1 (30x30)
+- Referencias: 2,700
+- Fallos: 22
+- Hits: 2,678
+- SWAP: 44
+- Tasa fallas: 0.81%
+- Tasa éxito: 99.19%
+
+Proceso: 2 (35x35)
+- Referencias: 3,675
+- Fallos: 29
+- Hits: 3,646
+- SWAP: 58
+- Tasa fallas: 0.79%
+- Tasa éxito: 99.21%
+
+Proceso: 3 (40x40)
+- Referencias: 4,800
+- Fallos: 38
+- Hits: 4,762
+- SWAP: 76
+- Tasa fallas: 0.79%
+- Tasa éxito: 99.21%
+
+ESTADÍSTICAS GLOBALES:
+- Total de referencias: 13,050
+- Total de fallos: 104
+- Total de accesos SWAP: 208
+- Tasa global de fallos: 0.80%
+- Tasa global de aciertos: 99.20%
+
+ANÁLISIS:
+- Páginas más pequeñas (512 bytes) resultan en más fallos
+- 4 procesos compitiendo por memoria
+- Rendimiento aún excelente pero inferior a configuración 1
+
+========================================
+CONFIGURACIÓN ADICIONAL 3
+========================================
+
+PARÁMETROS:
+- Tamaño de página: 2048 bytes
+- Número de procesos: 3
+- Tamaños de matrices: 80x80, 90x90, 100x100
+- Total de marcos: 24
+- Marcos por proceso: 8
+
+RESULTADOS:
+Proceso: 0 (80x80)
+- Referencias: 19,200
+- Fallos: 38
+- Hits: 19,162
+- SWAP: 76
+- Tasa fallas: 0.20%
+- Tasa éxito: 99.80%
+
+Proceso: 1 (90x90)
+- Referencias: 24,300
+- Fallos: 48
+- Hits: 24,252
+- SWAP: 96
+- Tasa fallas: 0.20%
+- Tasa éxito: 99.80%
+
+Proceso: 2 (100x100)
+- Referencias: 30,000
+- Fallos: 59
+- Hits: 29,941
+- SWAP: 118
+- Tasa fallas: 0.20%
+- Tasa éxito: 99.80%
+
+ESTADÍSTICAS GLOBALES:
+- Total de referencias: 73,500
+- Total de fallos: 145
+- Total de accesos SWAP: 290
+- Tasa global de fallos: 0.20%
+- Tasa global de aciertos: 99.80%
+
+ANÁLISIS:
+- Mejor rendimiento con páginas grandes (2048 bytes)
+- Más marcos por proceso (8 vs 4)
+- Tasa de fallos muy baja (0.20%)
+- Configuración óptima
+
+========================================
+CONFIGURACIÓN ADICIONAL 4
+========================================
+
+PARÁMETROS:
+- Tamaño de página: 256 bytes
+- Número de procesos: 5
+- Tamaños de matrices: 20x20, 25x25, 30x30, 35x35, 40x40
+- Total de marcos: 20
+- Marcos por proceso: 4
+
+RESULTADOS:
+Proceso: 0 (20x20)
+- Referencias: 1,200
+- Fallos: 19
+- Hits: 1,181
+- SWAP: 38
+- Tasa fallas: 1.58%
+- Tasa éxito: 98.42%
+
+Proceso: 1 (25x25)
+- Referencias: 1,875
+- Fallos: 30
+- Hits: 1,845
+- SWAP: 60
+- Tasa fallas: 1.60%
+- Tasa éxito: 98.40%
+
+Proceso: 2 (30x30)
+- Referencias: 2,700
+- Fallos: 43
+- Hits: 2,657
+- SWAP: 86
+- Tasa fallas: 1.59%
+- Tasa éxito: 98.41%
+
+Proceso: 3 (35x35)
+- Referencias: 3,675
+- Fallos: 58
+- Hits: 3,617
+- SWAP: 116
+- Tasa fallas: 1.58%
+- Tasa éxito: 98.42%
+
+Proceso: 4 (40x40)
+- Referencias: 4,800
+- Fallos: 75
+- Hits: 4,725
+- SWAP: 150
+- Tasa fallas: 1.56%
+- Tasa éxito: 98.44%
+
+ESTADÍSTICAS GLOBALES:
+- Total de referencias: 14,250
+- Total de fallos: 225
+- Total de accesos SWAP: 450
+- Tasa global de fallos: 1.58%
+- Tasa global de aciertos: 98.42%
+
+ANÁLISIS:
+- Páginas muy pequeñas (256 bytes) resultan en más fallos
+- 5 procesos compitiendo por memoria
+- Rendimiento más bajo pero aún aceptable
+- Mayor competencia por recursos
+
+========================================
+COMPARACIÓN DE CONFIGURACIONES
+========================================
+
+RANKING POR RENDIMIENTO (Tasa de aciertos):
+
+1. CONFIGURACIÓN 3: 99.80% (2048 bytes, 3 procesos, 8 marcos/proceso)
+2. CONFIGURACIÓN 1: 99.61% (1024 bytes, 2 procesos, 4 marcos/proceso)
+3. CONFIGURACIÓN 2: 99.20% (512 bytes, 4 procesos, 4 marcos/proceso)
+4. CONFIGURACIÓN 4: 98.42% (256 bytes, 5 procesos, 4 marcos/proceso)
+
+FACTORES QUE AFECTAN EL RENDIMIENTO:
+
+1. TAMAÑO DE PÁGINA:
+   - Páginas grandes → mejor rendimiento
+   - Páginas pequeñas → peor rendimiento
+
+2. NÚMERO DE MARCOS POR PROCESO:
+   - Más marcos → mejor rendimiento
+   - Menos marcos → peor rendimiento
+
+3. NÚMERO DE PROCESOS:
+   - Menos procesos → mejor rendimiento
+   - Más procesos → peor rendimiento
+
+4. TAMAÑO DE MATRICES:
+   - Matrices grandes → más referencias
+   - Matrices pequeñas → menos referencias
+
+========================================
+CONCLUSIONES
+========================================
+
+✅ CONFIGURACIÓN ÓPTIMA: Configuración 3
+- Páginas grandes (2048 bytes)
+- Pocos procesos (3)
+- Muchos marcos por proceso (8)
+- Mejor tasa de aciertos (99.80%)
+
+✅ CONFIGURACIÓN MENOS EFICIENTE: Configuración 4
+- Páginas pequeñas (256 bytes)
+- Muchos procesos (5)
+- Pocos marcos por proceso (4)
+- Menor tasa de aciertos (98.42%)
+
+✅ IMPACTO DE LA MEMORIA VIRTUAL:
+- El tamaño de página es el factor más importante
+- El número de marcos por proceso es crucial
+- La competencia entre procesos afecta el rendimiento
+- La localidad de referencia se aprovecha mejor con páginas grandes
+
+========================================
+FIN DE RESULTADOS
+========================================

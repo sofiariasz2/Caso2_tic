@@ -1,0 +1,39 @@
+=== GRÁFICA: FALLAS DE PÁGINA VS TAMAÑO DE PÁGINA ===
+Matrices 100x100
+
+                   600 |
+                        |
+                   500 |     ████
+                        |     ████
+                   400 |     ████
+                        |     ████
+                   300 |     ████     ████
+                        |     ████     ████
+                   200 |     ████     ████     ████
+                        |     ████     ████     ████
+                   100 |     ████     ████     ████     ████     ████
+                        |     ████     ████     ████     ████     ████
+                     0 |_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|
+                        256   512   1024  2048  4096
+                        Tamaño de Página (bytes)
+
+DATOS:
+Tamaño de Página (bytes) | Fallas de Página | Valor
+------------------------------------------------------------
+                 256 |             535 | ████████████████████
+                 512 |             301 | ███████████
+                1024 |             184 | ██████
+                2048 |             126 | ████
+                4096 |              98 | ███
+
+ANÁLISIS:
+- A mayor tamaño de página, menor número de fallas
+- Relación inversa clara y consistente
+- Reducción significativa de fallos con páginas más grandes
+- Matrices 100x100 tienen excelente localidad espacial
+
+REDUCCIÓN DE FALLOS:
+- 256 → 512 bytes: 535 → 301 fallos (43.7% reducción)
+- 512 → 1024 bytes: 301 → 184 fallos (38.9% reducción)
+- 1024 → 2048 bytes: 184 → 126 fallos (31.5% reducción)
+- 2048 → 4096 bytes: 126 → 98 fallos (22.2% reducción)

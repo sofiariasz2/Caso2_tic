@@ -1,0 +1,15 @@
+=== DATOS PARA GRÁFICA: FALLAS VS TAMAÑO DE PÁGINA ===
+Matrices 100x100
+
+Tamaño_Pagina,Fallas_Pagina
+256,535
+512,301
+1024,184
+2048,126
+4096,98
+
+=== ANÁLISIS ===
+- A mayor tamaño de página, menor número de fallas
+- Relación inversa: más datos por página = menos fallos
+- Páginas grandes aprovechan mejor la localidad espacial
+- Matrices 100x100 tienen excelente localidad espacial

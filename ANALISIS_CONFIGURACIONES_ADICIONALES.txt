@@ -1,0 +1,92 @@
+=== ANÁLISIS DE LAS 4 CONFIGURACIONES ADICIONALES ===
+
+CONFIGURACIÓN ADICIONAL 1:
+- Tamaño de página: 1024 bytes
+- Número de procesos: 2
+- Tamaños de matriz: 50x50, 75x75
+- Total de referencias: 24,375
+- Total de fallos de página: 96
+- Total de accesos SWAP: 192
+- Tasa global de fallos: 0.0039 (0.39%)
+- Tasa global de aciertos: 0.9961 (99.61%)
+
+CONFIGURACIÓN ADICIONAL 2:
+- Tamaño de página: 512 bytes
+- Número de procesos: 4
+- Tamaños de matriz: 25x25, 30x30, 35x35, 40x40
+- Total de referencias: 13,050
+- Total de fallos de página: 104
+- Total de accesos SWAP: 208
+- Tasa global de fallos: 0.0080 (0.80%)
+- Tasa global de aciertos: 0.9920 (99.20%)
+
+CONFIGURACIÓN ADICIONAL 3:
+- Tamaño de página: 2048 bytes
+- Número de procesos: 3
+- Tamaños de matriz: 80x80, 90x90, 100x100
+- Total de referencias: 73,500
+- Total de fallos de página: 145
+- Total de accesos SWAP: 290
+- Tasa global de fallos: 0.0020 (0.20%)
+- Tasa global de aciertos: 0.9980 (99.80%)
+
+CONFIGURACIÓN ADICIONAL 4:
+- Tamaño de página: 256 bytes
+- Número de procesos: 5
+- Tamaños de matriz: 20x20, 25x25, 30x30, 35x35, 40x40
+- Total de referencias: 14,250
+- Total de fallos de página: 225
+- Total de accesos SWAP: 450
+- Tasa global de fallos: 0.0158 (1.58%)
+- Tasa global de aciertos: 0.9842 (98.42%)
+
+=== ANÁLISIS COMPARATIVO ===
+
+1. EFICIENCIA POR TAMAÑO DE PÁGINA:
+   - Configuración 3 (2048 bytes): 0.20% de fallos - MÁS EFICIENTE
+   - Configuración 1 (1024 bytes): 0.39% de fallos
+   - Configuración 2 (512 bytes): 0.80% de fallos
+   - Configuración 4 (256 bytes): 1.58% de fallos - MENOS EFICIENTE
+
+2. IMPACTO DEL NÚMERO DE PROCESOS:
+   - Configuración 1 (2 procesos): 0.39% de fallos
+   - Configuración 2 (4 procesos): 0.80% de fallos
+   - Configuración 3 (3 procesos): 0.20% de fallos
+   - Configuración 4 (5 procesos): 1.58% de fallos
+
+3. IMPACTO DEL TAMAÑO DE MATRIZ:
+   - Matrices pequeñas (20x20 a 40x40): Mayor tasa de fallos
+   - Matrices medianas (50x50 a 75x75): Tasa de fallos intermedia
+   - Matrices grandes (80x80 a 100x100): Menor tasa de fallos
+
+=== CONCLUSIONES ===
+
+1. EL TAMAÑO DE PÁGINA ES EL FACTOR MÁS IMPORTANTE:
+   - Páginas más grandes (2048 bytes) reducen significativamente los fallos
+   - Páginas pequeñas (256 bytes) aumentan dramáticamente los fallos
+   - La relación es inversa y consistente
+
+2. EL NÚMERO DE PROCESOS AFECTA LA COMPETENCIA:
+   - Más procesos = más competencia por marcos = más fallos
+   - Menos procesos = menos competencia = menos fallos
+
+3. EL TAMAÑO DE MATRIZ INFLUYE EN LA LOCALIDAD:
+   - Matrices grandes aprovechan mejor la localidad espacial
+   - Matrices pequeñas tienen menos elementos por página
+
+4. CONFIGURACIÓN ÓPTIMA:
+   - Tamaño de página: 2048 bytes
+   - Número de procesos: 3
+   - Tamaños de matriz: Grandes (80x80 a 100x100)
+   - Resultado: 0.20% de fallos (más eficiente)
+
+=== EVIDENCIA DE EJECUCIÓN COMPLETA ===
+
+La simulación completa muestra:
+- 14,475 turnos de ejecución
+- Procesamiento de 14,250 referencias virtuales
+- 225 fallos de página totales
+- 450 accesos SWAP
+- Tasa de éxito del 98.42%
+
+El sistema demuestra un comportamiento estable y predecible, con el algoritmo LRU funcionando correctamente para minimizar los fallos de página y optimizar el uso de la memoria física.
